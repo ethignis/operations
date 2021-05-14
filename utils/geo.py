@@ -8,7 +8,7 @@ import numpy as np
 @TODO: need to set up the mavlink connection for getting the 
         GPS location
 '''
-def get_GPS():
+def get_current_location():
     pass
 
 '''

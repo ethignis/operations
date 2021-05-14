@@ -6,6 +6,8 @@ import utils.coordinate
 
 class FireLocalizer:
     def __init__(self):
+        '''
+        '''
         self.K = None
         self.R = None
         self.t = None
@@ -31,10 +33,11 @@ class FireLocalizer:
     '''
     def get_position(self):
         pass
-
-    '''
-    @function: adjust the position on the image 
-    '''
-    def adjust_position(self):
+    
+    def get_angle(self):
         pass
     
+    '''
+    '''
+    def export_fire_location(self):
+        pass
