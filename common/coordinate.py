@@ -61,7 +61,7 @@ def world2gps(x,y):
 @TODO: ADD R AND T AS DEFAULT VALUE
 '''
 def world2body(R, t, x_in, n):
-    
+
     return affine_transform(R,t,x_in,n)
 
 def body2world(R, t, x_in, n):
@@ -199,3 +199,13 @@ def affine_transform(R,t,x_in,n):
 
 def affine_inverse(R,t,x_in,n):
     return affine_transform(R.t, -t, x_in,n)
+
+'''
+@function: find the intersection between a line and a plane
+@param: p - the point on the line
+        line - the vector direction of the line
+        plane - the parametric representation of the plane
+@output: the point of intersection
+'''
+def get_line_plane_intersection(p, line, plane):
+   pass 
