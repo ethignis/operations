@@ -8,7 +8,7 @@ import data.vtol
 from common.metadata import MetaData
 from common.point import Point
 import common.coordinate
-import fire_detection
+from operations.fire_detection import *
 
 class FireLocalizer:
     def __init__(self):
@@ -19,31 +19,25 @@ class FireLocalizer:
 
     def localize_fire_thermal(self):
         img = self.get_image()
-        if fire_detection.detect_fire_thermal(img) == True:
-            pxes =  fire_detection.track_fire_thermal(img)
+        if detect_fire_thermal(img) == True:
+            pxes =  track_fire_thermal(img)
             for px in pxes:
-                # px_cam = common.coordinate.img2thermal_cam(px,2)
-                # pt_cam = common.coordinate.get_line_plane_intersection(px_cam,self.init.init_pt)
-                # pt_body = common.coordinate.thermal_cam2body(pt_cam)
-                # pt_world = common.coordinate.body2world(pt_body)
-                # pt_gps = common.coordinate.world2gps(pt_world)
-                # pt = Point(pt_gps[0],pt_gps[1],self.init.init_height)
                 p1 = Point(px,"thermal2gps")
-                pt = common.coordinate.get_line_plane_intersection(p1.thermal,self.init.init_pt.thermal)
-                self.p.append(pt)
+                pt_cam = common.coordinate.get_line_plane_intersection(p1.thermal,self.init.init_pt.thermal)
+                # TODO: Implement the flag in the coordinate
+                pt = Point(pt_cam,"thermal_cam2gps")
+                self.p.append(pt.gps)
 
     def localize_fire_visual(self):
         img = self.get_image()
-        if fire_detection.detect_fire_visual(img) == True:
-            pxes = fire_detection.track_fire_visual(img)
+        if detect_fire_visual(img) == True:
+            pxes = track_fire_visual(img)
             for px in pxes:
-                px_cam = common.coordinate.img2visual_cam(px,2)
-                pt_cam = common.coordinate.get_line_plane_intersection(px_cam,self.init.init_pt)
-                pt_body = common.coordinate.visual_cam2body(pt_cam)
-                pt_world = common.coordinate.body2world(pt_body)
-                pt_gps = common.coordinate.world2gps(pt_world)
-                pt = Point(pt_gps[0],pt_gps[1],self.init.init_height)
-                self.p.append(pt)
+                p1 = Point(px,"visual2gps")
+                pt_cam = common.coordinate.get_line_plane_intersection(p1.visual,self.init.init_pt.visual)
+                # TODO: Implement the flag in the coordinate
+                pt = Point(pt_cam,"visual_cam2gps")
+                self.p.append(pt.gps)
 
     '''
     '''
