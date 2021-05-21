@@ -59,7 +59,7 @@ def world2gps(world):
     crs_21781 = CRS.from_epsg(21781)
     transformer_21781_2_4326 = Transformer.from_crs(crs_21781,crs_4326)
     gps = transformer_21781_2_4326.transform(x,y)
-    return np.concatenate([array(gps),z],axis=None)
+    return np.concatenate([np.array(gps),z],axis=None)
 
 '''
 @function: convert the world coordinate into the body coordinate
@@ -67,18 +67,28 @@ def world2gps(world):
         t - the translation vector world to body
         x_in - the input vector in the inhomogeneous coordinate
         n - the dimension of the input vector
+        init - the initial point in
+        angle -(yaw, pitch, roll)
 @output: the object in the body coordinate
 @TODO: ADD R AND T AS DEFAULT VALUE
 '''
-def world2body(x_in):
-    R = NotImplemented
-    t = NotImplemented
-    return affine_transform(R,t,x_in)
+def world2body(x_in, angle, init):
+    R = init.yaw(init.dir_angle)
+    t = init.world - x_in
+    x = inhom2hom(x_in)
+    # TODO: CHECK IF THIS ORDER MAKES SENSE
+    A = np.dot(yaw(angle[0]),np.dot(pitch(angle[1]),roll(angle[2])))
+    return hom2inhom(np.dot(A,np.dot(get_transformation_matrix(R,t),x)))
 
-def body2world(x_in):
-    R = NotImplemented
-    t = NotImplemented
-    return affine_inverse(R,t,x_in)
+def body2world(x_in, angle, init):
+    R = init.yaw(init.dir_angle)
+    t = init.world - x_in
+    x = inhom2hom(x_in)
+    # TODO: CHECK IF THIS ORDER MAKES SENSE
+    A = np.dot(yaw(angle[0]),np.dot(pitch(angle[1]),roll(angle[2])))
+    return hom2inhom(np.dot(np.linalg.inv(np.dot(A,get_transformation_matrix(R,t))),x))
+
+    return np.dot(np.linalg.inv(get_transformation_matrix(R,t)),x_in)
 
 '''
 @function: convert from the body coordinate
@@ -92,12 +102,14 @@ def body2world(x_in):
 def body2thermal_cam(x_in):
     R = np.dot(yaw(90),pitch(50))
     t = np.array([[377.7033],[-40],[109.4655]])
-    return affine_transform(R,t,x_in)
+    x = inhom2hom(x_in)
+    return hom2inhom(np.dot(get_transformation_matrix(R,t),x))
 
 def body2visual_cam(x_in):
     R = np.dot(yaw(90),pitch(50))
     t = np.array([[377.7033],[40],[109.4655]])
-    return affine_transform(R,t,x_in)
+    x = inhom2hom(x_in)
+    return hom2inhom(np.dot(np.linalg.inv(get_transformation_matrix(R,t)),x))
 
 '''
 @function: convert from the camera coordinate
@@ -110,12 +122,14 @@ def body2visual_cam(x_in):
 def thermal_cam2body(x_in):
     R = np.dot(yaw(90),pitch(50))
     t = np.array([[377.7033],[-40],[109.4655]])
-    return affine_inverse(R,t,x_in)
+    x = inhom2hom(x_in)
+    return hom2inhom(np.dot(get_transformation_matrix(R,t),x))
 
 def visual_cam2body(x_in):
     R = np.dot(yaw(90),pitch(50))
     t = np.array([[377.7033],[40],[109.4655]])
-    return affine_inverse(R,t,x_in)
+    x = inhom2hom(x_in)
+    return hom2inhom(np.dot(np.linalg.inv(get_transformation_matrix(R,t)),x))
 
 '''
 @function: convert the camera coordinate into the image coordinate
@@ -126,13 +140,13 @@ def visual_cam2body(x_in):
 @TODO: ADD K AS DEFAULT VALUE
 '''
 def visual_cam2img(x_in):
-    K = None
+    K = np.array([[5656.593192953894, 0.0, 1802.704606152339,0],[0.0, 5746.861237550193, 1121.0693629948237,0],[0.0, 0.0, 1.0,0]])
     x = inhom2hom(x_in)
     y = np.dot(K,x)
     return hom2inhom(y)
 
 def thermal_cam2img(x_in):
-    K = None
+    K = np.array([[1800.4033813603758, 0.0, 324.19864197825694,0],[0.0, 1894.355660078678, 228.25800068833723,0],[0.0, 1894.355660078678, 228.25800068833723,0]])
     x = inhom2hom(x_in)
     y = np.dot(K,x)
     return hom2inhom(y)
@@ -146,11 +160,13 @@ def thermal_cam2img(x_in):
 @TODO: ADD K AS DEFAULT VALUE
 '''
 def img2visual_cam(x_in):
+    K = np.array([[5656.593192953894, 0.0, 1802.704606152339,0],[0.0, 5746.861237550193, 1121.0693629948237,0],[0.0, 0.0, 1.0,0]])
     x = inhom2hom(x_in)
     y = np.dot(np.linalg.inv(K),x)
     return hom2inhom(y)
 
-def img2thermal_cam(x_in, n):
+def img2thermal_cam(x_in):
+    K = np.array([[1800.4033813603758, 0.0, 324.19864197825694,0],[0.0, 1894.355660078678, 228.25800068833723,0],[0.0, 1894.355660078678, 228.25800068833723,0]])
     x = inhom2hom(x_in)
     y = np.dot(np.linalg.inv(K),x)
     return hom2inhom(y)
@@ -200,7 +216,7 @@ def hom2inhom(p):
         n - dimension of the vector
 @output: a homogeneous affine transformation matrix in homogeneous coordinate
 '''
-# def affine2matrix(R,t):
+def affine2matrix(R,t):
 #     assert R.shape[1] == n, "The dimension of the rotation matrix does not match!"
 #     assert t.shape[0] == n, "The dimension of the translation vector does not match!"
     T1 = np.concatenate((R,np.zeros([1,3])))
@@ -237,3 +253,8 @@ def get_line_plane_intersection(p1, p2):
    l = p2[-1]/v[-1]
    p = l * v
    return p
+
+def get_transformation_matrix(R,t):
+    T1 = np.concatenate((R,np.zeros([1,3])))
+    T2 = inhom2hom(t-np.dot(R,t)).reshape([R.shape[0]+1,1])
+    return np.concatenate((T1,T2),axis=1)
