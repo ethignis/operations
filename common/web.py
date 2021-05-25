@@ -6,7 +6,7 @@ def fetch_data():
 
 #data select from visual camera
 def fetch_visual_data():
-    # return ["/camera/image_color"]
-    # return ["/camera/image_mono"]
+    #return ["/camera/image_color"]
+    #return ["/camera/image_mono"]
     #return ["/thermalgrabber_ros/image_mono8","/camera/image_color"]
     return ["/thermalgrabber_ros/image_mono8"]
