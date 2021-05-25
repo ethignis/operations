@@ -1,4 +1,4 @@
-import coordinate
+from . import coordinate
 import numpy as np
 '''
 A class for each GPS point. The class essentially capsulates both

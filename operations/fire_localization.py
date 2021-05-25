@@ -43,3 +43,5 @@ class FireLocalizer:
     '''
     def export_fire_location(self):
         return self.p
+
+    
