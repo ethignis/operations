@@ -15,4 +15,4 @@ def get_temp():
 
    temp_map = callback_temp(rospy.wait_for_message(topic,Image))
    temp_map = raw_to_kelvin_factor *temp_map + kKelvinToCelsiusShift
-    
+   print(temp_map)
