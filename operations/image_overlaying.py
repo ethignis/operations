@@ -1,10 +1,14 @@
+import numpy as np
+import cv2 as cv
+import matplotlib.pyplot as plt
+
 class ImageOverlay:
     def __init__(self):
         pass
     
-import numpy as np
-import cv2 as cv
-import matplotlib.pyplot as plt
+    def overlay_image(img1,img2):
+        pass
+    
 
 for i in range(1,11):
 
