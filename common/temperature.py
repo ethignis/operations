@@ -5,14 +5,16 @@ from cv_bridge import CvBridge
 
 def callback_temp(img):
    bridge = CvBridge()
-   return bridge.imgmsg_to_cv2(img)
+   return bridge.imgmsg_to_cv2(img,desired_encoding="32FC1")
 
 def get_temp():
    topic = "/thermalgrabber_ros/image_deg_celsius"
-   rospy.init("Temperature",anonymous=True)
-   raw_to_kelvin_factor = 0.04
-   kKelvinToCelsiusShift = -273.15
+   rospy.init_node("Temperature",anonymous=True)
+   # raw_to_kelvin_factor = 0.04
+   # kKelvinToCelsiusShift = -273.15
 
    temp_map = callback_temp(rospy.wait_for_message(topic,Image))
-   temp_map = raw_to_kelvin_factor *temp_map + kKelvinToCelsiusShift
-   print(temp_map)
+   #temp_map = raw_to_kelvin_factor *temp_map + kKelvinToCelsiusShift
+   return temp_map
+
+#print(get_temp())

@@ -19,14 +19,13 @@ class FireLocalizer:
 
     def localize_fire_thermal(self):
         img = self.get_image()
-        if detect_fire_thermal(img) == True:
-            pxes =  track_fire_thermal(img)
-            for px in pxes:
-                p1 = Point(px,"thermal2gps")
-                pt_cam = common.coordinate.get_line_plane_intersection(p1.thermal,self.init.init_pt.thermal)
-                # TODO: Implement the flag in the coordinate
-                pt = Point(pt_cam,"thermal_cam2gps")
-                self.p.append(pt.gps)
+        mask =  track_fire_thermal()
+        for px in pxes:
+            p1 = Point(px,"thermal2gps")
+            pt_cam = common.coordinate.get_line_plane_intersection(p1.thermal,self.init.init_pt.thermal)
+            # TODO: Implement the flag in the coordinate
+            pt = Point(pt_cam,"thermal_cam2gps")
+            self.p.append(pt.gps)
 
     def localize_fire_visual(self):
         img = self.get_image()

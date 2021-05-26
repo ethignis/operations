@@ -66,8 +66,8 @@ class ThermalCameraSubscriber:
                 data.append(rospy.wait_for_message(subscriber,Image))
                 #print(data)
                 if self.save==True:
-                    filename = "./images/{}-{}.jpg".format(subscriber,self.j)
-                    cv2.imwrite("./images/"+str(i)+"-"+str(self.j)+".jpg",self.img2cv2(data[i]))
+                    filename = "./images1/{}-{}.jpg".format(subscriber,self.j)
+                    cv2.imwrite("./images1/"+str(i)+"-"+str(self.j)+".jpg",self.img2cv2(data[i]))
                     print('saved')
                 cv2.imshow(subscriber,self.img2cv2(data[i]))
                 cv2.waitKey(10)

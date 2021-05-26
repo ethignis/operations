@@ -13,8 +13,20 @@ thermal camera. I would implement
 @output: true if there is fire; false otherwise
 '''
 
-def detect_fire_thermal(img):
-    pass
+from common.temperature import *
+import numpy as np
+
+'''
+@function: detect the location of fire
+@thermal:
+'''
+def detect_fire_thermal():
+    FIRE_TEMP = 50
+    img = get_temp()
+    if img[img >FIRE_TEMP].shape[0] > 0:
+        return True
+    else:
+        return False 
 
 def detect_fire_visual(img):
     pass
@@ -24,8 +36,15 @@ def detect_fire_visual(img):
 @param: img - input image
 @output: a masking for segmentation of fire/non-fire region
 '''
-def track_fire_thermal(img):
-    pass
+def track_fire_thermal():
+    FIRE_TEMP = 50
+    img = get_temp()
+    mask = img > FIRE_TEMP
+    return mask
 
 def track_fire_visual(img):
     pass
+
+def detect_and_track_fire_thermal():
+    FIRE_TEMP = 50
+    img = get_temp()
