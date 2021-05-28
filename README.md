@@ -7,6 +7,9 @@ The files are essentially divided into common, data, opeartions, samples and tes
 ## Fire Detection
 
 ## Thermal-Visual Image Overlaying
+This function overlays the important parts of the thermal image to the visual
+image. The inputs are the images of both cameras. The thermal image is transformed to the perspective and size of the visual image. The output is the overlayed
+image in the size of the visual image. (4000x3000 pixel) 
 
 ## Fire Localization
 The feature is needed for localizing the fire location via GPS information and images taken from the camera on-board.
