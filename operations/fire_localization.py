@@ -20,23 +20,31 @@ class FireLocalizer:
     def localize_fire_thermal(self):
         img = self.get_image()
         mask =  track_fire_thermal()
-        for px in pxes:
-            p1 = Point(px,"thermal2gps")
-            pt_cam = common.coordinate.get_line_plane_intersection(p1.thermal,self.init.init_pt.thermal)
-            # TODO: Implement the flag in the coordinate
-            pt = Point(pt_cam,"thermal_cam2gps")
-            self.p.append(pt.gps)
-
-    def localize_fire_visual(self):
-        img = self.get_image()
-        if detect_fire_visual(img) == True:
-            pxes = track_fire_visual(img)
-            for px in pxes:
-                p1 = Point(px,"visual2gps")
-                pt_cam = common.coordinate.get_line_plane_intersection(p1.visual,self.init.init_pt.visual)
+        # index list of fire px
+        pxes = np.where(mask)
+        if pxes[0].size > 0:
+            for i in range(pxes[0].shape):
+                #@TODO: Check if the order is correct
+                px = np.array([pxes[0][i],pxes[1][i]])
+                p1 = Point(px,"thermal2gps")
+                pt_cam = common.coordinate.get_line_plane_intersection(p1.thermal,self.init.init_pt.thermal)
                 # TODO: Implement the flag in the coordinate
-                pt = Point(pt_cam,"visual_cam2gps")
+                pt = Point(pt_cam,"thermal_cam2gps")
                 self.p.append(pt.gps)
+
+    # def localize_fire_visual(self):
+    #     img = self.get_image()
+    #     mask = track_fire_visual()
+    #     # index list of fire px
+    #     pxes = np.where(mask)
+    #     for px in pxes:
+    #         col = px[0]
+    #         row = 
+    #         p1 = Point(px,"visual2gps")
+    #         pt_cam = common.coordinate.get_line_plane_intersection(p1.visual,self.init.init_pt.visual)
+    #         # TODO: Implement the flag in the coordinate
+    #         pt = Point(pt_cam,"visual_cam2gps")
+    #         self.p.append(pt.gps)
 
     '''
     '''
