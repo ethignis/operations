@@ -12,7 +12,8 @@ def main():
         thermal_img = thermal.get_thermal_image()
         visual_img = visual.get_visual_image()
         img = overlay_image(thermal_img, visual_img)
-        cv2.imshow("test",cv2.resize(img,(960,540)))#cv2.bitwise_and(b,mask))
+        cv2.imshow("test",cv2.resize(img,(800,600)))
+        #cv2.imshow("test",cv2.resize(visual_img,(800,600)))
         cv2.waitKey(10)
 
 if __name__ == "__main__":

@@ -81,3 +81,12 @@ class ThermalCameraSubscriber:
     def get_thermal_image(self):
         img = self.img2cv2(rospy.wait_for_message("/thermalgrabber_ros/image_mono8",Image))
         return img
+
+    '''
+        @function: get thermal image for only once
+        @param: self
+        @output: the thermal mono16 image
+    '''
+    def get_thermal_image_16(self):
+        img = self.img2cv2(rospy.wait_for_message("/thermalgrabber_ros/image_mono16",Image))
+        return img
