@@ -9,7 +9,7 @@ def callback_temp(img):
 
 def get_temp():
    topic = "/thermalgrabber_ros/image_deg_celsius"
-   rospy.init_node("Temperature",anonymous=True)
+   #rospy.init_node("Temperature",anonymous=True)
    # raw_to_kelvin_factor = 0.04
    # kKelvinToCelsiusShift = -273.15
 

@@ -16,14 +16,15 @@ from cv_bridge import CvBridge
 class ThermalCameraSubscriber:
     def __init__(self,save=False):
         self.running_subscribers = []
-        self.thermal_topic = ["/thermalgrabber_ros/image_mono8",
-                        "/thermalgrabber_ros/image_mono16",
-                        "/thermalgrabber_ros/image_deg_celsius",
-                        "/thermalgrabber_ros/image_color"]
-
-        rospy.init_node("thermalgrabber_ros",anonymous=True)
+        #self.thermal_topic = ["/thermalgrabber_ros/image_mono8",
+        #                "/thermalgrabber_ros/image_mono16",
+        #                "/thermalgrabber_ros/image_deg_celsius",
+        #                "/thermalgrabber_ros/image_color"]
+        self.thermal_topic = ["/thermalgrabber_ros/image_mono16"]
+        #rospy.init_node("thermalgrabber_ros",anonymous=True)
         self.save = save
         self.j = 0
+        self.bridge = CvBridge()
 
     '''
         Function: callback
@@ -47,8 +48,7 @@ class ThermalCameraSubscriber:
         return rospy.wait_for_message(self.thermal_topic[3],Image)
 
     def img2cv2(self,img):
-        bridge = CvBridge()
-        cv_image = bridge.imgmsg_to_cv2(img)
+        cv_image = self.bridge.imgmsg_to_cv2(img)
         return cv_image
     '''
         Function: listen
@@ -71,5 +71,13 @@ class ThermalCameraSubscriber:
                     print('saved')
                 cv2.imshow(subscriber,self.img2cv2(data[i]))
                 cv2.waitKey(10)
- 
         rospy.spin()
+    
+    '''
+        @function: get thermal image for only once
+        @param: self
+        @output: the thermal mono8 image
+    '''
+    def get_thermal_image(self):
+        img = self.img2cv2(rospy.wait_for_message("/thermalgrabber_ros/image_mono8",Image))
+        return img

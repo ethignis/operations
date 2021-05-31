@@ -6,7 +6,7 @@ This is the main class which runs everything.
                                 1 for thermal
 '''
 import threading
-from common
+
 def main():
    pass
 

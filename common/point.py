@@ -1,5 +1,10 @@
 from . import coordinate
 import numpy as np
+import geojson
+'''
+@TODO: use geojson and pygdal to support the export of geolocations 
+       in the format of geojson to enable Formant to run the program
+'''
 '''
 A class for each GPS point. The class essentially capsulates both
 geo-coordinate and cartesian coordinate of the point such that

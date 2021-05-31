@@ -13,13 +13,13 @@ class VisualSubscriber:
                         "/camera/image_mono",
                         "/camera/image_raw"]
 
-        rospy.init_node("visual_camera",anonymous=True)
+        #rospy.init_node("visual_camera",anonymous=True)
         self.save = save
         self.j = 0
+        self.bridge = CvBridge()
 
     def img2cv2(self,img):
-        bridge = CvBridge()
-        cv_image = bridge.imgmsg_to_cv2(img, "bgr8")
+        cv_image = self.bridge.imgmsg_to_cv2(img, "bgr8")
         return cv_image        
 
     '''
@@ -69,3 +69,12 @@ class VisualSubscriber:
                 cv2.waitKey(2000)
  
         rospy.spin()
+    
+    '''
+        @function: get visual image for only once
+        @param: self
+        @output: the thermal mono8 image
+    '''
+    def get_visual_image(self):
+        img = self.img2cv2(rospy.wait_for_message("/camera/image_color",Image))
+        return img
