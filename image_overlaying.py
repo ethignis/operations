@@ -19,8 +19,8 @@ import matplotlib.pyplot as plt
 '''
 def overlay_image(img_thermal,img_visual):
     #set parameters for transforming the thermal image
-    pts1 = np.float32([[170,163],[375,190],[205,290],[329,329]])
-    pts2 = np.float32([[420,500],[2550,850],[700,1850],[1900,2350]])
+    pts1 = np.float32([[147,230],[298,237],[161,315],[298,315]])
+    pts2 = np.float32([[526,1143],[2286,1120],[229,1920],[1897,1897]])
     #print(pts2)
     M = cv2.getPerspectiveTransform(pts1,pts2)
     #transform the thermal image to the new size and perspective

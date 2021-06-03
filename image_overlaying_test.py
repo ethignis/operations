@@ -12,8 +12,7 @@ def main():
     visual = VisualSubscriber()
     print("visual released")
 
-    save=True
-    print(save)
+    save=False
     if save == True:
         print("start saving")
         thermal_img = thermal.get_thermal_image()
