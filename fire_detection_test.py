@@ -37,7 +37,7 @@ def main():
          count = 0
       #cv2.imshow("test",mask)#cv2.bitwise_and(b,mask))
       #cv2.waitKey(10)
-      pub.publish(text)
+      #pub.publish(text)
       rate.sleep()
     
 if __name__ == "__main__":
