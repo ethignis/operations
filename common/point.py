@@ -1,6 +1,8 @@
 from . import coordinate
 import numpy as np
 import geojson
+from geojson import Point, Feature, FeatureCollection, dump
+
 '''
 @TODO: use geojson and pygdal to support the export of geolocations 
        in the format of geojson to enable Formant to run the program
@@ -60,3 +62,23 @@ class Point:
             pass
         elif flag == "visual_cam2body":
             pass
+
+'''
+@function: export the GPS position of the point to the GeoJSON
+@param: pt - a Point class 
+@
+'''
+def export_point(pt,count):
+
+    point = Point(pt.gps)
+
+    features = []
+    features.append(Feature(geometry=point, properties={"country": "Spain"}))
+
+    # add more features...
+    # features.append(...)
+
+    feature_collection = FeatureCollection(features)
+
+    with open('location-{}.geojson'.format(count), 'w') as f:
+        dump(feature_collection, f)

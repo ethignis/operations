@@ -34,7 +34,7 @@ def callback_gps(gps_data):
 
 def get_odometry():
   topic = "/mavros_node/local_position/odom"
-  rospy.init_node("odom",anonymous=True)
+  #rospy.init_node("odom",anonymous=True)
   lin_pos, ang_pos, lin_vel, ang_vel = callback_odm(rospy.wait_for_message(topic,Odometry))
   #rospy.Subscriber(topic,Odometry,callback_odm)
   return lin_pos, quat2rot(ang_pos), lin_vel, ang_vel
