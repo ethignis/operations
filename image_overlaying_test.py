@@ -9,7 +9,7 @@ def main():
 
     #initialization of the cameras and node
     print("start of programm")
-    pub = rospy.Publisher('overlayed', Image, queue_size=10)
+    #pub = rospy.Publisher('overlayed', Image, queue_size=10)
     rospy.init_node("Test",anonymous=False)
     thermal = ThermalCameraSubscriber()
     print("thermal released")
@@ -34,8 +34,8 @@ def main():
         thermal_img = thermal.get_thermal_image()
         visual_img = visual.get_visual_image()
         img = overlay_image(thermal_img, visual_img)
-        pub.publish
-        #cv2.imshow("test",cv2.resize(img,(800,600)))
+        #pub.publish
+        cv2.imshow("test",cv2.resize(img,(800,600)))
         #cv2.imshow("test",cv2.resize(visual_img,(800,600)))
         cv2.waitKey(10)
 
