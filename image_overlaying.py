@@ -1,4 +1,4 @@
-'''
+        '''
 This is used to overlay the interesting parts of the thermal image
 to the visual image 
 '''

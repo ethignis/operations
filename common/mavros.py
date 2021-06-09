@@ -26,6 +26,11 @@ def callback_odm(odom_data):
   ang_vel = np.array([ang_vel.x,ang_vel.y,ang_vel.z])
   return lin_pos, ang_pos, lin_vel, ang_vel
 
+'''
+@function: a callback function to return the triple tuple of latitute, longitude and altitude
+@param: gps_data - GPS data in ros message
+@return: an array of latitude, longitude and altitude
+'''
 def callback_gps(gps_data):
   lat = gps_data.latitude
   lng = gps_data.longitude
