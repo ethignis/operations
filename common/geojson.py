@@ -18,5 +18,5 @@ def export_geojson(ps):
 
     feature_collection = FeatureCollection(features)
 
-    with open('data/map/{}.geojson'.format(int(time.time())), 'w') as f:
+    with open('data/gps/{}.geojson'.format(int(time.time())), 'w') as f:
         dump(feature_collection, f)
