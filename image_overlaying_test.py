@@ -14,6 +14,7 @@ def main():
     rospy.init_node("Test",anonymous=True)
     pub = rospy.Publisher('overlay_image/img', Image, queue_size=10)
     rate = rospy.Rate(10) # 10hz
+    print("publisher released")
     thermal = ThermalCameraSubscriber()
     print("thermal released")
     visual = VisualSubscriber()

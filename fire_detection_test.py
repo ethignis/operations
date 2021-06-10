@@ -42,7 +42,7 @@ def main():
          count = 0
       #cv2.imshow("test",mask)#cv2.bitwise_and(b,mask))
       #cv2.waitKey(10)
-      # img_seg = 
+      img_seg = cv2.bitwise_and(b_img,b_img,mask = mask)
       pub_text.publish(text)
       pub_img.publish(bridge.cv2_to_imgmsg(mask))
       pub_seg.publish(bridge.cv2_to_imgmsg(img_seg))
