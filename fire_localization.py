@@ -5,7 +5,7 @@ fires could be marked on the map
 
 import numpy as np
 import data.vtol
-from common.metadata import MetaData
+#from common.metadata import MetaData
 #from common.point import Point
 import common.coordinate
 from fire_detection import *
@@ -14,7 +14,7 @@ class FireLocalizer:
     def __init__(self,init_gps):
         '''
         '''
-        self.init = MetaData(init_gps)
+        self.init = init_gps
         self.p = []
     
     '''
@@ -33,7 +33,7 @@ class FireLocalizer:
                 px_thermal_cam = img2thermal_cam(px_img)
                 px_body = thermal_cam2body(px_thermal_cam)
                 px_world = body2world(px_body)
-                n = np.array([0,0,self.init.init_gps])
+                n = np.array([0,0,self.init_gps[-1]])
                 p =  body2world(thermal_cam2body(np.array([0,0,0])))
                 pt = get_line_plane_intersection(p,px_world,n)
                 # TODO: Implement the flag in the coordinate
