@@ -8,7 +8,7 @@ import data.vtol
 from common.metadata import MetaData
 from common.point import Point
 import common.coordinate
-from operations.fire_detection import *
+from fire_detection import *
 
 class FireLocalizer:
     def __init__(self):
