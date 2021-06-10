@@ -7,7 +7,6 @@ from data.vtol import get_current_location
 from point import Point
 
 class MetaData:
-    def __init__(self):
-        self.init_pt = Point(get_current_location(),"init")
-        self.init_height = self.init_pt[-1]
+    def __init__(self,gps):
+        self.init_gps = gps # Pt - GPS location of the initial starting point 
     
